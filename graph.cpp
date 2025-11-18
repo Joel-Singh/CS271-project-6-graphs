@@ -257,8 +257,37 @@ string Graph<K,D>::topologicalSort( )
 template <class K, class D>
 void Graph<K,D>::BFS ( K source )
 {
-    // TO-DO: Implement BFS algorithm
-    return;
+    for (int i = 0; i < numV; i++) {
+        VertexInfo vrt = vertices[i];
+        vrt.color = 'w';
+        vrt.d = INT_MAX;
+        vrt.pre = nullptr;
+    }
+    VertexInfo src = vertices[source];
+    src.color = 'g';
+    src.d = 0;
+    src.pre = nullptr;
+
+    queue<K> q;
+    q.push(source);
+    while(!q.empty()) {
+        K predecessor = q.front();
+        q.pop();
+
+        const auto& adj = vertices[predecessor].adj;
+
+        for (const tuple<K, int>& edge: adj) {
+            K v_key = get<0>(edge);
+            VertexInfo v = vertices[v_key];
+            if (v.color == 'w') {
+                v.color = 'g';
+                v.d = vertices[predecessor].d + 1;
+                v.pre = &predecessor;
+                q.push(v_key);
+            }
+        }
+        vertices[predecessor].color = 'b';
+    }
 }
 
 //=================================================================
