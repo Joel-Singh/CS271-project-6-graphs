@@ -8,6 +8,7 @@
 
 #include <queue>
 #include <climits>
+#include <stack>
 
 //=================================================================
 // Default constructor
@@ -270,8 +271,23 @@ void Graph<K,D>::BFS ( K source )
 template <class K, class D>
 string Graph<K,D>::shortestPath ( K s, K d )
 {
-    // TO-DO: Implement shortest path retrieval using BFS results
-    return "";
+    BFS(s);
+    stack<K> stack;
+    VertexInfo end = vertices[d];
+    while (end.pre != nullptr) {
+        stack.push(d);
+        d = *end.pre;
+        end = vertices[*end.pre];
+    }
+
+    string result;
+    while(!stack.empty()) {
+        result += to_string(stack.top());
+        stack.pop();
+        result += stack.empty() ? "" : "->";
+    }
+
+    return result;
 }
 
 //=================================================================
