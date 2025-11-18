@@ -53,3 +53,26 @@ Graph::BFS(source) {
     }
 }
 ```
+
+## Graph::shortestPath(start, end)
+```cpp
+#include <stack>
+#include <string>
+
+Graph::shortestPath(start, end) {
+    BFS(start);
+    Stack<K> stack;
+    while (end.pre != nullptr) {
+        stack.push(end);
+        end = end.pre;
+    }
+
+    while(!stack.empty()) {
+        result += to_string(stack.top());
+        stack.pop();
+        result += stack.empty() ? "" : "->";
+    }
+
+    return result;
+}
+```
