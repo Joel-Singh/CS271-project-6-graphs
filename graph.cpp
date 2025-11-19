@@ -301,22 +301,14 @@ template <class K, class D>
 string Graph<K,D>::shortestPath ( K s, K d )
 {
     BFS(s);
-    stack<K> stack;
-    VertexInfo end = vertices[d];
-    while (end.pre != nullptr) {
-        stack.push(d);
-        d = *end.pre;
-        end = vertices[*end.pre];
+    
+    if (s == d) {
+        return to_string(s);
+    } else if (vertices.at(s).pre == nullptr) {
+        return "";
+    } else {
+        return to_string(d) + shortestPath(s, *vertices.at(d).pre);
     }
-
-    string result;
-    while(!stack.empty()) {
-        result += to_string(stack.top());
-        stack.pop();
-        result += stack.empty() ? "" : "->";
-    }
-
-    return result;
 }
 
 //=================================================================
