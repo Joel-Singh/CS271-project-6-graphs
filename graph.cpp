@@ -68,7 +68,7 @@ bool Graph<K,D>::isEdge ( K v1, K v2 ) const{
     if (vertices.find(v1) == vertices.end() || vertices.find(v2) == vertices.end())
         throw invalid_argument("Error in isEdge: One or both vertices not found.");
     // get the adjacency list of v1
-    const list<tuple<K, int>>& adj = vertices[v1].adj;
+    const list<tuple<K, int>>& adj = vertices.at(v1).adj;
     // check if v2 is in the adjacency list
     for (const auto& edge : adj) {
         if (get<0>(edge) == v2)
@@ -330,6 +330,25 @@ string Graph<K,D>::shortestPath ( K s, K d )
 template <class K, class D>
 int** Graph<K,D>::asAdjMatrix ( ) const
 {
-    // TO-DO: Implement adjacency matrix creation
-    return nullptr;
+    int** matrix = new int*[numV];
+
+    for (int i = 0; i < numV; i++) {
+        matrix[i] = new int[numV];
+    }
+
+    for (int i = 0; i < numV; i++) {
+        for (int j = 0; j < numV; j++) {
+            matrix[i][j] = INT_MAX;
+        }
+    }
+
+    for (int k = 0; k < numV; k++) {
+        for (auto& edge : vertices.at(k).adj) {
+            K key = get<0>(edge);
+            int weight = get<1>(edge);
+            matrix[k][key] = weight;
+        }
+    }
+
+    return matrix;
 }
