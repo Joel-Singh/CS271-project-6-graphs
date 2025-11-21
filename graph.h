@@ -55,6 +55,7 @@ public:
    string  topologicalSort ( );
    void    BFS             ( K source );
    string  shortestPath    ( K s, K d );
+   string  shortestPathRecursive    ( K s, K d );
    int**   asAdjMatrix     ( ) const;
 };
 #include "graph.cpp"

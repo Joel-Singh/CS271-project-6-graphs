@@ -258,12 +258,12 @@ template <class K, class D>
 void Graph<K,D>::BFS ( K source )
 {
     for (int i = 0; i < numV; i++) {
-        VertexInfo vrt = vertices[i];
+        VertexInfo<K, D>& vrt = vertices[i];
         vrt.color = 'w';
         vrt.d = INT_MAX;
         vrt.pre = nullptr;
     }
-    VertexInfo src = vertices[source];
+    VertexInfo<K, D>& src = vertices[source];
     src.color = 'g';
     src.d = 0;
     src.pre = nullptr;
@@ -278,11 +278,11 @@ void Graph<K,D>::BFS ( K source )
 
         for (const tuple<K, int>& edge: adj) {
             K v_key = get<0>(edge);
-            VertexInfo v = vertices[v_key];
+            VertexInfo<K, D>& v = vertices[v_key];
             if (v.color == 'w') {
                 v.color = 'g';
                 v.d = vertices[predecessor].d + 1;
-                v.pre = &predecessor;
+                v.pre = new int(predecessor);
                 q.push(v_key);
             }
         }
@@ -301,13 +301,22 @@ template <class K, class D>
 string Graph<K,D>::shortestPath ( K s, K d )
 {
     BFS(s);
-    
+    return shortestPathRecursive(s, d);
+}
+
+//=================================================================
+// shortestPathRecursive
+//=================================================================
+template <class K, class D>
+string Graph<K,D>::shortestPathRecursive ( K s, K d )
+{
     if (s == d) {
         return to_string(s);
-    } else if (vertices.at(s).pre == nullptr) {
+    } else if (vertices.at(d).pre == nullptr) {
         return "";
     } else {
-        return to_string(d) + shortestPath(s, *vertices.at(d).pre);
+        string d_str = to_string(d);
+        return shortestPathRecursive(s, *vertices.at(d).pre) + "->"+ d_str;
     }
 }
 
