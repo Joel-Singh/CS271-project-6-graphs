@@ -106,7 +106,7 @@ int Graph<K,D>::getWeight ( K v1, K v2 ) const {
 // Returns:     none
 //=================================================================
 template <class K, class D>
-void Graph<K,D>::insertEdge ( K v1, K v2, int w )
+void Graph<K,D>::insertEdge ( K v1, K v2, int w, string label)
 {
     if (vertices.find(v1) == vertices.end() || vertices.find(v2) == vertices.end())
         throw invalid_argument("Error in insertEdge: One or both vertices not found.");
@@ -114,12 +114,12 @@ void Graph<K,D>::insertEdge ( K v1, K v2, int w )
     // if edge already exists, update weight
     for (auto& edge : vertices[v1].adj) {
         if (get<0>(edge) == v2) {
-            edge = make_tuple(v2, w, "");
+            edge = make_tuple(v2, w, label);
             return;
         }
     }
     // otherwise, add new edge to adjacency list
-    vertices[v1].adj.push_back(make_tuple(v2, w, ""));
+    vertices[v1].adj.push_back(make_tuple(v2, w, label));
     numE++;
 }
 
