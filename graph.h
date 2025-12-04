@@ -20,7 +20,7 @@ template <class K, class D>
 struct VertexInfo
 {
     D                     data;
-    list<tuple<K, int>>    adj; // adjacency list
+    list<tuple<K, double>>    adj; // adjacency list
 
     // attributes filled in during BFS/DFS
     int                      d; // distance from source
