@@ -1,2 +1,2 @@
-test_graph_example.cpp graph.h:
-	g++ -o test_graph_example -g -fsanitize=address -O0 test_graph_example.cpp
+graph_tests.cpp graph.h:
+	g++ -o graph_tests -g -O0 graph_tests.cpp
