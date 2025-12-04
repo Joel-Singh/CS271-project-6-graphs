@@ -114,12 +114,12 @@ void Graph<K,D>::insertEdge ( K v1, K v2, int w )
     // if edge already exists, update weight
     for (auto& edge : vertices[v1].adj) {
         if (get<0>(edge) == v2) {
-            edge = make_tuple(v2, w);
+            edge = make_tuple(v2, w, "");
             return;
         }
     }
     // otherwise, add new edge to adjacency list
-    vertices[v1].adj.push_back(make_tuple(v2, w));
+    vertices[v1].adj.push_back(make_tuple(v2, w, ""));
     numE++;
 }
 
@@ -276,7 +276,7 @@ void Graph<K,D>::BFS ( K source )
 
         const auto& adj = vertices[predecessor].adj;
 
-        for (const tuple<K, int>& edge: adj) {
+        for (const tuple<K, int, string>& edge: adj) {
             K v_key = get<0>(edge);
             VertexInfo<K, D>& v = vertices[v_key];
             if (v.color == 'w') {
