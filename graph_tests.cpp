@@ -1,7 +1,7 @@
 // *******************************************
 //  test_graph_example.cpp
-//  CS 271 Graph Project: Example Test File
-//  Expand on these tests!
+//  CS 271 Graph Project
+//  Joel Singh, Colin Nguyen
 // *******************************************
 
 #include <stdlib.h>
