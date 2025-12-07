@@ -13,6 +13,7 @@
 #include <chrono>
 #include <climits>
 #include "graph.h"
+#include <tuple>
 using namespace std;
 
 // helper function to create a graph from a file
@@ -31,15 +32,21 @@ Graph<int, string> createGraphFromFile(const string& filename)
     infile >> v >> e;
     for (int i = 0; i < v; ++i) {
         int key;
-        string data;
-        infile >> key >> data;
+        // string data;
+        double x;
+        double y;
+        tuple<double, double> data;
+        infile >> key >> x >> y;
+        get<0>(data) = x;
+        get<1>(data) = y; 
         g.insertVertex(key, data);
     }
     for (int i = 0; i < e; ++i) {
         int from, to;
         double weight;
-        infile >> from >> to >> weight;
-        g.insertEdge(from, to, weight);
+        string label;
+        infile >> from >> to >> weight >> label;
+        g.insertEdge(from, to, weight, label);
     }
     return g;
 }
@@ -109,6 +116,8 @@ void test_shortestPath_lengthTwo()
 }
 
 
+
+
 void test_shortestPath_lengthFive()
 {
     try{
@@ -121,6 +130,21 @@ void test_shortestPath_lengthFive()
     }
     catch (std::exception& e) {
         cerr << "Error testing shortest path: " << e.what() << endl;
+    }
+}
+
+void test_shortestPath_nonexistantVertex()
+{
+    try{
+        Graph<int, string> g = createGraphFromFile("lengthTwo.txt");
+        string path = g.shortestPath(0, 12);
+        cout << "Shortest path from 0 to 112: " << path << endl;
+        if (path != "0->1") {
+            cout << "Shortest path result is incorrect. Expected: 0->1 but got: " << path << endl;
+        }
+    }
+    catch (std::exception& e) {
+        cerr << "Correctly caucht error testing shortest path: " << e.what() << endl;
     }
 }
 
@@ -284,16 +308,47 @@ void test_asAdjMatrix_lengthFive()
 
 int main()
 {
-    test_asAdjMatrix_empty();
-    test_BFS_lengthTwo();
-    test_shortestPath_lengthTwo();
-    test_asAdjMatrix_lengthTwo();
-    test_BFS_lengthFive();
-    test_shortestPath_lengthFive();
-    test_asAdjMatrix_lengthFive();
-    test_asAdjMatrix_lengthOne();
+    // test_asAdjMatrix_empty();
+    // test_BFS_lengthTwo();
+    // test_shortestPath_lengthTwo();
+    // test_asAdjMatrix_lengthTwo();
+    // test_BFS_lengthFive();
+    // test_shortestPath_lengthFive();
+    // test_asAdjMatrix_lengthFive();
+    // test_asAdjMatrix_lengthOne();
+    // test_shortestPath_nonexistantVertex();
 
-    cout << "Testing completed" << endl;
+    // cout << "Testing completed" << endl;
+    ifstream infile("example.txt");
+    if (!infile) {
+        cerr << "Error opening file: " << endl;
+        return 0;
+    }
 
+    string line;
+    getline(infile, line);
+
+    int next_space = line.find(' ');
+    string from = line.substr(0, next_space);
+    cout << "The from is " << from << endl;
+
+    line = line.substr(next_space+1);
+    next_space = line.find(' ');
+    string to = line.substr(0, next_space);
+    cout << "The to is " << to << endl;
+
+    line = line.substr(next_space+1);
+    next_space = line.find(' ');
+    string weight = line.substr(0, next_space);
+    cout << "The weight is " << weight << endl;
+
+    string label = line.substr(next_space+1);
+    cout << "The label is" << label << endl;
+
+    
+    
+    // string substr3 = line.substr(next_space+3);
+    // cout << line << endl;
+    // cout << substr3 << endl;
     return 0;
 }

@@ -131,7 +131,7 @@ void Graph<K,D>::insertEdge ( K v1, K v2, int w, string label)
 // Returns:     none
 //=================================================================
 template <class K, class D>
-void Graph<K,D>::insertVertex ( K key, D data )
+void Graph<K,D>::insertVertex ( K key, tuple<double, double> data )
 {
     if (vertices.find(key) != vertices.end()){
         // vertex already exists, so just update data

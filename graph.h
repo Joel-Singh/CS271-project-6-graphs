@@ -19,7 +19,7 @@ using namespace std;
 template <class K, class D>
 struct VertexInfo
 {
-    D                     data;
+    tuple<double, double>                     data;
     list<tuple<K, double, string>>    adj; // adjacency list
 
     // attributes filled in during BFS/DFS
@@ -47,8 +47,8 @@ public:
 
    bool    isEdge          ( K v1, K v2 ) const;
    int     getWeight       ( K v1, K v2 ) const;
-   void    insertEdge      ( K v1, K v2, int w);
-   void    insertVertex    ( K key, D data );
+   void    insertEdge      ( K v1, K v2, int w, string label);
+   void    insertVertex    ( K key, tuple<double, double> data );
    int     size            ( ) {return numV;}
    string  toString        ( ) const;
    void    DFS             ( );
