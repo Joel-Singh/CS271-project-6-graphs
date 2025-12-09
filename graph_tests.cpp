@@ -47,8 +47,31 @@ Graph<int, string> createGraphFromFile(const string& filename)
         float weight;
         string label;
         infile >> from >> to >> weight;
+
+        // Get the rest of the line
         std::getline(infile, label);
-        cout << from << " " << to << " " << weight << " " << label << endl;
+
+        int first_letter = label.find_first_not_of(' ');
+        // If there isn't a letter in the rest of the line, there must not be a label
+        bool no_label = first_letter == string::npos;
+        if (no_label) {
+            label = "";
+        } else {
+            // Remove forward spaces
+            label = label.substr(first_letter);
+
+            int last_letter = label.find_last_not_of(' ');
+
+            if (last_letter == string::npos) {
+                last_letter = label.size() - 1;
+            }
+
+            // Remove trailing spaces
+            label = label.substr(0, last_letter + 1);
+        }
+
+
+        cout << from << " " << to << " " << weight << " " << "`" << label << "`" << endl;
         g.insertEdge(from, to, weight, label);
     }
     return g;
