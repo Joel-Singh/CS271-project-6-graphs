@@ -348,12 +348,12 @@ string Graph<K,D>::shortestPath ( K s, K d )
 // shortestPathRecursive
 //=================================================================
 template <class K, class D>
-string Graph<K,D>::shortestPathRecursive ( K s, K d )
+string Graph<K,D>::shortestPathRecursive ( K s, K d, int distance )
 {
     if (s == d) {
         VertexInfo<K, D>& s_string = vertices[s];
         tuple<double, double> s_info = s_string.data;
-        return "(" + (to_string(get<0>(s_info))) + ", " + (to_string(get<1>(s_info))) + ")" + "\n";
+        return string("Total distance: ") + to_string(distance) + "\n(" + (to_string(get<0>(s_info))) + ", " + (to_string(get<1>(s_info))) + ")" + "\n";
     } else if (vertices.at(d).pre == nullptr) {
         return "";
     } else {
@@ -361,7 +361,7 @@ string Graph<K,D>::shortestPathRecursive ( K s, K d )
         VertexInfo<K, D>& d_string = vertices[d];
         tuple<double, double> d_info = d_string.data;
         string d_str = "(" + (to_string(get<0>(d_info))) + ", " + (to_string(get<1>(d_info))) + ")" + "\n";
-        return shortestPathRecursive(s, *vertices.at(d).pre) + d_str;
+        return shortestPathRecursive(s, *vertices.at(d).pre, distance + 1) + d_str;
     }
 }
 
