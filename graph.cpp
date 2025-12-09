@@ -361,7 +361,7 @@ string Graph<K,D>::shortestPathRecursive ( K s, K d )
         VertexInfo<K, D>& d_string = vertices[d];
         tuple<double, double> d_info = d_string.data;
         string d_str = "(" + (to_string(get<0>(d_info))) + ", " + (to_string(get<1>(d_info))) + ")" + "\n";
-        return shortestPathRecursive(s, *vertices.at(d).pre) + "\n"+ d_str; 
+        return shortestPathRecursive(s, *vertices.at(d).pre) + d_str;
     }
 }
 

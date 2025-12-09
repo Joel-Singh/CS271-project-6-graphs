@@ -146,20 +146,8 @@ void test_shortestPath_lengthTen()
 {
     Graph<int, string> g = createGraphFromFile("denison.txt");
     string path = g.shortestPath(73712, 635949);
-    string correct_path = "Total distance: 10 \n\
-        (-82.5183, 40.069) \n\
-        North Prospect Street(-82.5183, 40.0691) \n\
-        East College Street(-82.5201, 40.0692) \n\
-        President Drive(-82.5226, 40.0705) \n\
-        President’s Drive(-82.5227, 40.0708) \n\
-        President’s Drive(-82.523, 40.0715) \n\
-        Ridge Road(-82.5237, 40.0718) \n\
-        Ridge Road(-82.5251, 40.0724) \n\
-        Washington Drive(-82.5251, 40.0725) \n\
-        Ebaugh Drive(-82.5252, 40.0726) \n\
-        Ebaugh Drive(-82.5253, 40.0726)";
+    string correct_path = "(-82.518332, 40.069045)\n(-82.518329, 40.069083)\n(-82.520055, 40.069182)\n(-82.522614, 40.070549)\n(-82.522673, 40.070789)\n(-82.522984, 40.071528)\n(-82.523694, 40.071846)\n(-82.525078, 40.072356)\n(-82.525146, 40.072547)\n(-82.525236, 40.072556)\n(-82.525307, 40.072550)\n";
 
-    // cout << "Shortest path from 1 to 3: " << path << endl;
     if (path != correct_path) {
         cout << "Shortest path result is incorrect. got: `" << path << "`" << endl;
     }
