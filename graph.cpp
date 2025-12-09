@@ -264,7 +264,7 @@ void Graph<K,D>::BFS ( K source )
         VertexInfo<K, D>& vrt = vertices[i];
         vrt.color = 'w';
         vrt.d = INT_MAX;
-        vrt.pre = 0;
+        vrt.pre = nullptr;
     }
     VertexInfo<K, D>& src = vertices[source];
     src.color = 'g';
