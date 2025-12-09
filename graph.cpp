@@ -141,6 +141,7 @@ void Graph<K,D>::insertVertex ( K key, tuple<double, double> data )
     else {
         VertexInfo<K,D> newVertex;
         newVertex.data = data;
+        newVertex.key = key;
         vertices[key] = newVertex;
         numV++;
     }
@@ -283,7 +284,8 @@ void Graph<K,D>::BFS ( K source )
             if (v.color == 'w') {
                 v.color = 'g';
                 v.d = vertices[predecessor].d + 1;
-                v.pre = new int(predecessor);
+                // v.pre = new int(predecessor);
+                v.pre = &vertices[predecessor].key;
                 q.push(v_key);
             }
         }
@@ -322,12 +324,16 @@ string Graph<K,D>::shortestPath ( K s, K d )
         cout << "(" << get<0>(info) << ", " << get<1>(info) << ")" << endl;
         // We do not need to print out a label because there is no edge
 
-    } else if {
-    
     } else {
         // one or both of the input keys don't exist
         cout << "Either one or both of your input keys don't exist as a vertex." << endl;
         return "";
+    }
+
+    int tracker = d;
+    int distance = 0;
+    while (tracker != s) {
+        
     }
 
 

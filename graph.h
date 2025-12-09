@@ -20,7 +20,7 @@ template <class K, class D>
 struct VertexInfo
 {
     tuple<double, double>                     data;
-   //  int                                       key;
+    int                                       key;
     list<tuple<K, double, string>>    adj; // adjacency list
 
     // attributes filled in during BFS/DFS
