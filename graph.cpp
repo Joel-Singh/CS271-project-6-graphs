@@ -44,7 +44,7 @@ Graph<K,D>::Graph ( vector<K> keys, vector<D> data, vector<tuple<K,K,int>> edges
         K v2 = get<1>(edges[j]);
         int w = get<2>(edges[j]);
         string label = get<3>(edges[j]);
-        insertEdge(v1, v2, w);
+        insertEdge(v1, v2, w, label);
     }
 }
 
@@ -302,14 +302,35 @@ template <class K, class D>
 string Graph<K,D>::shortestPath ( K s, K d )
 {
     BFS(s);
-    if (s == d) {
-        VertexInfo<K, D>& vrt = vertices[s];
-        cout << "Total Distance: 0" << endl;
-        tuple<double, double> info = vrt.data;
-        cout << "(" << get<0>(info) << ", " << get<1>(info) << ")" << endl;
-    } else if (vertices.at(d).pre == nullptr) {
+    
+    if (vertices.at(d).pre == nullptr && vertices.find(d) != vertices.end() && 
+        vertices.find(s) == vertices.end()) {
+
+        // if there is no path from s to d, but both vertices exist
+        cout << "No path found from " << s << " to " << d << "." << endl;
         return "";
-    } 
+        
+    } else if (s == d)  {
+
+        VertexInfo<K, D>& vrt = vertices[s];
+        // case if the source and destination are the same
+        cout << "Total Distance: 0" << endl;   
+        tuple<double, double> info = vrt.data;
+
+        // print out coordinates of the source vertex, which would 
+        // be the same as the destination vertex
+        cout << "(" << get<0>(info) << ", " << get<1>(info) << ")" << endl;
+        // We do not need to print out a label because there is no edge
+
+    } else if {
+    
+    } else {
+        // one or both of the input keys don't exist
+        cout << "Either one or both of your input keys don't exist as a vertex." << endl;
+        return "";
+    }
+
+
     return shortestPathRecursive(s, d);
 }
 
