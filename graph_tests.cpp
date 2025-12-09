@@ -70,8 +70,6 @@ Graph<int, string> createGraphFromFile(const string& filename)
             label = label.substr(0, last_letter + 1);
         }
 
-
-        cout << from << " " << to << " " << weight << " " << "`" << label << "`" << endl;
         g.insertEdge(from, to, weight, label);
     }
     return g;
