@@ -260,8 +260,7 @@ string Graph<K,D>::topologicalSort( )
 template <class K, class D>
 void Graph<K,D>::BFS ( K source )
 {
-    for (int i = 0; i < numV; i++) {
-        VertexInfo<K, D>& vrt = vertices[i];
+    for (auto& [_, vrt] : vertices) {
         vrt.color = 'w';
         vrt.d = INT_MAX;
         vrt.pre = nullptr;
@@ -285,7 +284,6 @@ void Graph<K,D>::BFS ( K source )
             if (v.color == 'w') {
                 v.color = 'g';
                 v.d = vertices[predecessor].d + 1;
-                // v.pre = new int(predecessor);
                 v.pre = &vertices[predecessor].key;
                 q.push(v_key);
             }
@@ -363,7 +361,6 @@ string Graph<K,D>::shortestPathRecursive ( K s, K d )
         VertexInfo<K, D>& d_string = vertices[d];
         tuple<double, double> d_info = d_string.data;
         string d_str = "(" + (to_string(get<0>(d_info))) + ", " + (to_string(get<1>(d_info))) + ")" + "\n";
-        cout << d_str << endl;
         return shortestPathRecursive(s, *vertices.at(d).pre) + "\n"+ d_str; 
     }
 }
