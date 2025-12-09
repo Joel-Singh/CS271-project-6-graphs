@@ -43,6 +43,7 @@ Graph<K,D>::Graph ( vector<K> keys, vector<D> data, vector<tuple<K,K,int>> edges
         K v1 = get<0>(edges[j]);
         K v2 = get<1>(edges[j]);
         int w = get<2>(edges[j]);
+        string label = get<3>(edges[j]);
         insertEdge(v1, v2, w);
     }
 }
@@ -261,7 +262,7 @@ void Graph<K,D>::BFS ( K source )
         VertexInfo<K, D>& vrt = vertices[i];
         vrt.color = 'w';
         vrt.d = INT_MAX;
-        vrt.pre = nullptr;
+        vrt.pre = 0;
     }
     VertexInfo<K, D>& src = vertices[source];
     src.color = 'g';
@@ -301,6 +302,14 @@ template <class K, class D>
 string Graph<K,D>::shortestPath ( K s, K d )
 {
     BFS(s);
+    if (s == d) {
+        VertexInfo<K, D>& vrt = vertices[s];
+        cout << "Total Distance: 0" << endl;
+        tuple<double, double> info = vrt.data;
+        cout << "(" << get<0>(info) << ", " << get<1>(info) << ")" << endl;
+    } else if (vertices.at(d).pre == nullptr) {
+        return "";
+    } 
     return shortestPathRecursive(s, d);
 }
 

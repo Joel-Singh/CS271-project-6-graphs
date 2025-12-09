@@ -106,7 +106,7 @@ void test_shortestPath_lengthTwo()
 {
     try{
         Graph<int, string> g = createGraphFromFile("lengthTwo.txt");
-        string path = g.shortestPath(0, 1);
+        string path = g.shortestPath(35429, 35429);
         cout << "Shortest path from 0 to 1: " << path << endl;
         if (path != "0->1") {
             cout << "Shortest path result is incorrect. Expected: 0->1 but got: " << path << endl;
@@ -124,7 +124,7 @@ void test_shortestPath_lengthFive()
 {
     try{
         Graph<int, string> g = createGraphFromFile("denison.txt");
-        string path = g.shortestPath(91442, 70838);
+        string path = g.shortestPath(35429, 35429);
         cout << "Shortest path from 1 to 3: " << path << endl;
         if (path != "1->3") {
             cout << "Shortest path result is incorrect. Expected: 1->3 but got: " << path << endl;
