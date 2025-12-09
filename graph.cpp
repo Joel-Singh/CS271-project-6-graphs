@@ -9,6 +9,7 @@
 #include <queue>
 #include <climits>
 #include <stack>
+#include <vector>
 
 //=================================================================
 // Default constructor
@@ -305,39 +306,44 @@ string Graph<K,D>::shortestPath ( K s, K d )
 {
     BFS(s);
     
-    if (vertices.at(d).pre == nullptr && vertices.find(d) != vertices.end() && 
-        vertices.find(s) == vertices.end()) {
+    // if (vertices.find(s) == vertices.end() || vertices.find(d) == vertices.end()) {
+    //     cout << "Either one or both of your input keys don't exist as a vertex." << endl;
+    // } else if (vertices.at(d).pre == nullptr) {
+    //     cout << "No path found from " << s << " to " << d << "." << endl;
+    // } else if (s == d) {
+    //     VertexInfo<K, D>& vrt = vertices[s];
+    //     // case if the source and destination are the same
+    //     cout << "Total Distance: 0" << endl;   
+    //     tuple<double, double> info = vrt.data;
 
-        // if there is no path from s to d, but both vertices exist
-        cout << "No path found from " << s << " to " << d << "." << endl;
-        return "";
-        
-    } else if (s == d)  {
+    //     // print out coordinates of the source vertex, which would 
+    //     // be the same as the destination vertex
+    //     cout << "(" << get<0>(info) << ", " << get<1>(info) << ")" << endl;
+    //     // We do not need to print out a label because there is no edge
+    // } else {}
 
-        VertexInfo<K, D>& vrt = vertices[s];
-        // case if the source and destination are the same
-        cout << "Total Distance: 0" << endl;   
-        tuple<double, double> info = vrt.data;
+    // int tracker = d;
+    // queue<string> places; 
+    // while (tracker != s) {
+    //     cout << *vertices.at(d).pre << endl;
+    //     // cout << (vertices[s].adj) << endl;
+    //     // *vertices.at(d).pre
+    // }
 
-        // print out coordinates of the source vertex, which would 
-        // be the same as the destination vertex
-        cout << "(" << get<0>(info) << ", " << get<1>(info) << ")" << endl;
-        // We do not need to print out a label because there is no edge
+    // VertexInfo<K, D>& src = vertices[s];
+    // tuple<double, double> srcInfo = src.data;
+    // vector<string> places;
+    // string startingString = "";
+    // // startingString += "(" + (to_string(get<0>(srcInfo))) + 
+    // ", " + (to_string(get<1>(srcInfo))) + ")" + "\n";
+    // cout << startingString << endl;
+    // // places.push_back(startingString);
 
+    if (vertices.find(s) == vertices.end() || vertices.find(d) == vertices.end()) {
+        return "Either one or both of your input keys don't exist as a vertex.";
     } else {
-        // one or both of the input keys don't exist
-        cout << "Either one or both of your input keys don't exist as a vertex." << endl;
-        return "";
+        return shortestPathRecursive(s, d);
     }
-
-    int tracker = d;
-    int distance = 0;
-    while (tracker != s) {
-        
-    }
-
-
-    return shortestPathRecursive(s, d);
 }
 
 //=================================================================
@@ -347,12 +353,18 @@ template <class K, class D>
 string Graph<K,D>::shortestPathRecursive ( K s, K d )
 {
     if (s == d) {
-        return to_string(s);
+        VertexInfo<K, D>& s_string = vertices[s];
+        tuple<double, double> s_info = s_string.data;
+        return "(" + (to_string(get<0>(s_info))) + ", " + (to_string(get<1>(s_info))) + ")" + "\n";
     } else if (vertices.at(d).pre == nullptr) {
         return "";
     } else {
-        string d_str = to_string(d);
-        return shortestPathRecursive(s, *vertices.at(d).pre) + "->"+ d_str;
+        // string d_str = to_string(d);
+        VertexInfo<K, D>& d_string = vertices[d];
+        tuple<double, double> d_info = d_string.data;
+        string d_str = "(" + (to_string(get<0>(d_info))) + ", " + (to_string(get<1>(d_info))) + ")" + "\n";
+        cout << d_str << endl;
+        return shortestPathRecursive(s, *vertices.at(d).pre) + "\n"+ d_str; 
     }
 }
 

@@ -48,6 +48,7 @@ Graph<int, string> createGraphFromFile(const string& filename)
         string label;
         infile >> from >> to >> weight;
         std::getline(infile, label);
+        cout << from << " " << to << " " << weight << " " << label << endl;
         g.insertEdge(from, to, weight, label);
     }
     return g;
@@ -124,8 +125,8 @@ void test_shortestPath_lengthFive()
 {
     try{
         Graph<int, string> g = createGraphFromFile("denison.txt");
-        string path = g.shortestPath(2, 21222);
-        cout << "Shortest path from 1 to 3: " << path << endl;
+        string path = g.shortestPath(73712, 635949);
+        // cout << "Shortest path from 1 to 3: " << path << endl;
         if (path != "1->3") {
             cout << "Shortest path result is incorrect. Expected: 1->3 but got: " << path << endl;
         }
