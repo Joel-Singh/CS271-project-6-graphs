@@ -11,6 +11,7 @@
 #include <stack>
 #include <vector>
 
+
 //=================================================================
 // Default constructor
 // Creates an empty graph
@@ -357,10 +358,18 @@ string Graph<K,D>::shortestPathRecursive ( K s, K d, int distance )
     } else if (vertices.at(d).pre == nullptr) {
         return "";
     } else {
-        // string d_str = to_string(d);
+
         VertexInfo<K, D>& d_string = vertices[d];
         tuple<double, double> d_info = d_string.data;
-        string d_str = "(" + (to_string(get<0>(d_info))) + ", " + (to_string(get<1>(d_info))) + ")" + "\n";
+        string label;
+        // assert(vertices.at(d).pre != nullptr);
+        for (auto& edge : vertices[*vertices.at(d).pre].adj) {
+            if (get<0>(edge) == d) {
+                label = get<2>(edge);
+            }
+        }
+
+        string d_str = label + "(" + (to_string(get<0>(d_info))) + ", " + (to_string(get<1>(d_info))) + ")" + "\n";
         return shortestPathRecursive(s, *vertices.at(d).pre, distance + 1) + d_str;
     }
 }
