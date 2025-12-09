@@ -12,6 +12,7 @@
 #include <vector>
 #include <chrono>
 #include <climits>
+#include <limits>
 #include "graph.h"
 #include <tuple>
 using namespace std;
@@ -43,9 +44,10 @@ Graph<int, string> createGraphFromFile(const string& filename)
     }
     for (int i = 0; i < e; ++i) {
         int from, to;
-        double weight;
+        float weight;
         string label;
-        infile >> from >> to >> weight >> label;
+        infile >> from >> to >> weight;
+        std::getline(infile, label);
         g.insertEdge(from, to, weight, label);
     }
     return g;
@@ -121,8 +123,8 @@ void test_shortestPath_lengthTwo()
 void test_shortestPath_lengthFive()
 {
     try{
-        Graph<int, string> g = createGraphFromFile("lengthFive.txt");
-        string path = g.shortestPath(1, 3);
+        Graph<int, string> g = createGraphFromFile("denison.txt");
+        string path = g.shortestPath(91442, 70838);
         cout << "Shortest path from 1 to 3: " << path << endl;
         if (path != "1->3") {
             cout << "Shortest path result is incorrect. Expected: 1->3 but got: " << path << endl;
@@ -313,37 +315,37 @@ int main()
     // test_shortestPath_lengthTwo();
     // test_asAdjMatrix_lengthTwo();
     // test_BFS_lengthFive();
-    // test_shortestPath_lengthFive();
+    test_shortestPath_lengthFive();
     // test_asAdjMatrix_lengthFive();
     // test_asAdjMatrix_lengthOne();
     // test_shortestPath_nonexistantVertex();
 
     // cout << "Testing completed" << endl;
-    ifstream infile("example.txt");
-    if (!infile) {
-        cerr << "Error opening file: " << endl;
-        return 0;
-    }
+    // ifstream infile("example.txt");
+    // if (!infile) {
+    //     cerr << "Error opening file: " << endl;
+    //     return 0;
+    // }
 
-    string line;
-    getline(infile, line);
+    // string line;
+    // getline(infile, line);
 
-    int next_space = line.find(' ');
-    string from = line.substr(0, next_space);
-    cout << "The from is " << from << endl;
+    // int next_space = line.find(' ');
+    // string from = line.substr(0, next_space);
+    // cout << "The from is " << from << endl;
 
-    line = line.substr(next_space+1);
-    next_space = line.find(' ');
-    string to = line.substr(0, next_space);
-    cout << "The to is " << to << endl;
+    // line = line.substr(next_space+1);
+    // next_space = line.find(' ');
+    // string to = line.substr(0, next_space);
+    // cout << "The to is " << to << endl;
 
-    line = line.substr(next_space+1);
-    next_space = line.find(' ');
-    string weight = line.substr(0, next_space);
-    cout << "The weight is " << weight << endl;
+    // line = line.substr(next_space+1);
+    // next_space = line.find(' ');
+    // string weight = line.substr(0, next_space);
+    // cout << "The weight is " << weight << endl;
 
-    string label = line.substr(next_space+1);
-    cout << "The label is" << label << endl;
+    // string label = line.substr(next_space+1);
+    // cout << "The label is" << label << endl;
 
     
     
