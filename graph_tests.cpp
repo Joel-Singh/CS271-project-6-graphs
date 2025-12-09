@@ -142,18 +142,26 @@ void test_shortestPath_lengthTwo()
 
 
 
-void test_shortestPath_lengthFive()
+void test_shortestPath_lengthTen()
 {
-    try{
-        Graph<int, string> g = createGraphFromFile("denison.txt");
-        string path = g.shortestPath(73712, 635949);
-        // cout << "Shortest path from 1 to 3: " << path << endl;
-        if (path != "1->3") {
-            cout << "Shortest path result is incorrect. Expected: 1->3 but got: " << path << endl;
-        }
-    }
-    catch (std::exception& e) {
-        cerr << "Error testing shortest path: " << e.what() << endl;
+    Graph<int, string> g = createGraphFromFile("denison.txt");
+    string path = g.shortestPath(73712, 635949);
+    string correct_path = "Total distance: 10 \n\
+        (-82.5183, 40.069) \n\
+        North Prospect Street(-82.5183, 40.0691) \n\
+        East College Street(-82.5201, 40.0692) \n\
+        President Drive(-82.5226, 40.0705) \n\
+        President’s Drive(-82.5227, 40.0708) \n\
+        President’s Drive(-82.523, 40.0715) \n\
+        Ridge Road(-82.5237, 40.0718) \n\
+        Ridge Road(-82.5251, 40.0724) \n\
+        Washington Drive(-82.5251, 40.0725) \n\
+        Ebaugh Drive(-82.5252, 40.0726) \n\
+        Ebaugh Drive(-82.5253, 40.0726)";
+
+    // cout << "Shortest path from 1 to 3: " << path << endl;
+    if (path != correct_path) {
+        cout << "Shortest path result is incorrect. got: `" << path << "`" << endl;
     }
 }
 
@@ -337,7 +345,7 @@ int main()
     // test_shortestPath_lengthTwo();
     // test_asAdjMatrix_lengthTwo();
     // test_BFS_lengthFive();
-    test_shortestPath_lengthFive();
+    test_shortestPath_lengthTen();
     // test_asAdjMatrix_lengthFive();
     // test_asAdjMatrix_lengthOne();
     // test_shortestPath_nonexistantVertex();
