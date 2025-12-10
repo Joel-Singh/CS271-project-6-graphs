@@ -462,7 +462,7 @@ bool Graph<K,D>::relax( K u, K v )
 
     if (vertices.at(v).d > vertices.at(u).d + weight) {
         vertices.at(v).d = vertices.at(u).d + weight;
-        vertices.at(v).pre = &u;
+        vertices.at(v).pre = &vertices[u].key;
         return true;
     } 
 
