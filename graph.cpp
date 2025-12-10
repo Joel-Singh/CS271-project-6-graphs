@@ -380,6 +380,14 @@ int** Graph<K,D>::asAdjMatrix ( ) const
     return matrix;
 }
 
+template <class K, class D>
+struct VertexInfoLess {
+    bool operator()(VertexInfo<K, D> const& l,
+                    VertexInfo<K, D> const& r) const {
+        return l.d > r.d;
+    }
+};
+
 //=================================================================
 // dijkstra
 //=================================================================
@@ -390,32 +398,34 @@ void Graph<K,D>::dijkstra ( K s )
     initializeSingleSource(s);
     set<K> keys_processed; 
 
-    auto cmp = [](VectorInfo<K, D> left, VectorInfo<K, D> right) { return left.d < right.d; };
-    priority_queue<VectorInfo<K,D>, vector<VectorInfo<K,D>>, decltype(cmp)> q(cmp);
-
+    std::priority_queue<
+      VertexInfo<K, D>,
+      std::vector<VertexInfo<K, D>>,
+      VertexInfoLess<K, D>
+    > q;
+ 
     for (auto& [_, vrt] : vertices) {
         q.push(vrt);
     }
 
-    K u;
+    VertexInfo<K, D> u;
     while (!q.empty()) { 
         // these two lines act as EXTRACT-MIN 
         u = q.top();
         q.pop();
 
-        if (keys_processed.contains(u)) {
+        if (keys_processed.find(u.key) != keys_processed.end()) {
             continue;
         }
 
         // add u to the end of s
-        s.insert(u);
+        keys_processed.insert(u.key);
 
-        for (auto& edge : vertices.at(u).adj) {
+        for (auto& edge : u.adj) {
             K v_key = get<0>(edge);
             VertexInfo<K,D>& v = vertices.at(v_key);
-            relax(u, v);
 
-            if (relax == true) {
+            if (relax(u.key, v.key)) {
                 // decrease key
                 q.push(v);
             }
@@ -444,8 +454,8 @@ template <class K, class D>
 bool Graph<K,D>::relax( K u, K v )
 {
     int weight = 0;
-    for (auto& edge : vertices.at(v).adj) {
-        if (get<0>(edge) == u) {
+    for (auto& edge : vertices.at(u).adj) {
+        if (get<0>(edge) == v) {
             weight = get<0>(edge);
         }
     }
