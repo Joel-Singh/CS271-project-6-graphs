@@ -10,6 +10,7 @@
 #include <climits>
 #include <stack>
 #include <vector>
+#include <set>
 
 
 //=================================================================
@@ -301,47 +302,18 @@ void Graph<K,D>::BFS ( K source )
 // Returns:     string representation of the shortest path
 //=================================================================
 template <class K, class D>
-string Graph<K,D>::shortestPath ( K s, K d )
+string Graph<K,D>::shortestPath ( K s, K d, bool weighted )
 {
-    BFS(s);
-    
-    // if (vertices.find(s) == vertices.end() || vertices.find(d) == vertices.end()) {
-    //     cout << "Either one or both of your input keys don't exist as a vertex." << endl;
-    // } else if (vertices.at(d).pre == nullptr) {
-    //     cout << "No path found from " << s << " to " << d << "." << endl;
-    // } else if (s == d) {
-    //     VertexInfo<K, D>& vrt = vertices[s];
-    //     // case if the source and destination are the same
-    //     cout << "Total Distance: 0" << endl;   
-    //     tuple<double, double> info = vrt.data;
-
-    //     // print out coordinates of the source vertex, which would 
-    //     // be the same as the destination vertex
-    //     cout << "(" << get<0>(info) << ", " << get<1>(info) << ")" << endl;
-    //     // We do not need to print out a label because there is no edge
-    // } else {}
-
-    // int tracker = d;
-    // queue<string> places; 
-    // while (tracker != s) {
-    //     cout << *vertices.at(d).pre << endl;
-    //     // cout << (vertices[s].adj) << endl;
-    //     // *vertices.at(d).pre
-    // }
-
-    // VertexInfo<K, D>& src = vertices[s];
-    // tuple<double, double> srcInfo = src.data;
-    // vector<string> places;
-    // string startingString = "";
-    // // startingString += "(" + (to_string(get<0>(srcInfo))) + 
-    // ", " + (to_string(get<1>(srcInfo))) + ")" + "\n";
-    // cout << startingString << endl;
-    // // places.push_back(startingString);
-
-    if (vertices.find(s) == vertices.end() || vertices.find(d) == vertices.end()) {
-        return "Either one or both of your input keys don't exist as a vertex.";
+    if (!weighted) {
+        BFS(s);
+        
+        if (vertices.find(s) == vertices.end() || vertices.find(d) == vertices.end()) {
+            return "Either one or both of your input keys don't exist as a vertex.";
+        } else {
+            return shortestPathRecursive(s, d);
+        }
     } else {
-        return shortestPathRecursive(s, d);
+        dijkstra(s);
     }
 }
 
@@ -406,4 +378,83 @@ int** Graph<K,D>::asAdjMatrix ( ) const
     }
 
     return matrix;
+}
+
+//=================================================================
+// dijkstra
+//=================================================================
+template <class K, class D> 
+void Graph<K,D>::dijkstra ( K s ) 
+{
+    // Initialize single source 
+    initializeSingleSource(s);
+    set<K> keys_processed; 
+
+    auto cmp = [](VectorInfo<K, D> left, VectorInfo<K, D> right) { return left.d < right.d; };
+    priority_queue<VectorInfo<K,D>, vector<VectorInfo<K,D>>, decltype(cmp)> q(cmp);
+
+    for (auto& [_, vrt] : vertices) {
+        q.push(vrt);
+    }
+
+    K u;
+    while (!q.empty()) { 
+        // these two lines act as EXTRACT-MIN 
+        u = q.top();
+        q.pop();
+
+        if (keys_processed.contains(u)) {
+            continue;
+        }
+
+        // add u to the end of s
+        s.insert(u);
+
+        for (auto& edge : vertices.at(u).adj) {
+            K v_key = get<0>(edge);
+            VertexInfo<K,D>& v = vertices.at(v_key);
+            relax(u, v);
+
+            if (relax == true) {
+                // decrease key
+                q.push(v);
+            }
+        }  
+    }
+}
+
+//=================================================================
+// initializeSingleSource
+//=================================================================
+template <class K, class D>
+void Graph<K,D>::initializeSingleSource ( K s )
+{
+    for (auto& [_, vrt] : vertices) {
+        vrt.d = INT_MAX;
+        vrt.pre = nullptr;
+    }
+
+    vertices.at(s).d = 0;
+}
+
+//=================================================================
+// relax
+//=================================================================
+template <class K, class D>
+bool Graph<K,D>::relax( K u, K v )
+{
+    int weight = 0;
+    for (auto& edge : vertices.at(v).adj) {
+        if (get<0>(edge) == u) {
+            weight = get<0>(edge);
+        }
+    }
+
+    if (vertices.at(v).d > vertices.at(u).d + weight) {
+        vertices.at(v).d = vertices.at(u).d + weight;
+        vertices.at(v).pre = &u;
+        return true;
+    } 
+
+    return false;
 }

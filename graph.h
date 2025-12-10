@@ -55,9 +55,12 @@ public:
    void    DFS             ( );
    string  topologicalSort ( );
    void    BFS             ( K source );
-   string  shortestPath    ( K s, K d );
+   string  shortestPath    ( K s, K d, bool weighted = false );
    string  shortestPathRecursive    ( K s, K d, int distance = 0 );
+   void  dijkstra        ( K s );
    int**   asAdjMatrix     ( ) const;
+   void    initializeSingleSource   ( K s );
+   bool    relax           ( K u, K v );
 };
 #include "graph.cpp"
 #endif
