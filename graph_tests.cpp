@@ -153,6 +153,17 @@ void test_shortestPath_lengthTen()
     }
 }
 
+void test_weighted_shortestPath_lengthTen()
+{
+    Graph<int, string> g = createGraphFromFile("denison.txt");
+    string path = g.shortestPath(73712, 635949, true);
+    string correct_path = "Total distance: 10\n(-82.518332, 40.069045)\nNorth Prospect Street(-82.518329, 40.069083)\nEast College Street(-82.520055, 40.069182)\nPresident's Drive(-82.522614, 40.070549)\nPresident's Drive(-82.522673, 40.070789)\nPresident's Drive(-82.522984, 40.071528)\nRidge Road(-82.523694, 40.071846)\nRidge Road(-82.525078, 40.072356)\nWashington Drive(-82.525146, 40.072547)\nEbaugh Drive(-82.525236, 40.072556)\nEbaugh Drive(-82.525307, 40.072550)\n";
+
+    if (path != correct_path) {
+        cout << "Shortest path result is incorrect. got: `" << path << "`" << endl;
+    }
+}
+
 void test_shortestPath_nonexistantVertex()
 {
     try{
@@ -333,7 +344,8 @@ int main()
     // test_shortestPath_lengthTwo();
     // test_asAdjMatrix_lengthTwo();
     // test_BFS_lengthFive();
-    test_shortestPath_lengthTen();
+    // test_shortestPath_lengthTen();
+    test_weighted_shortestPath_lengthTen();
     // test_asAdjMatrix_lengthFive();
     // test_asAdjMatrix_lengthOne();
     // test_shortestPath_nonexistantVertex();
