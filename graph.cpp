@@ -313,7 +313,7 @@ string Graph<K,D>::shortestPath ( K s, K d, bool weighted )
     if (vertices.find(s) == vertices.end() || vertices.find(d) == vertices.end()) {
         return "Either one or both of your input keys don't exist as a vertex.";
     } else {
-        return shortestPathRecursive(s, d);
+        return shortestPathRecursive(s, d, 0, weighted);
     }
 }
 
@@ -321,7 +321,7 @@ string Graph<K,D>::shortestPath ( K s, K d, bool weighted )
 // shortestPathRecursive
 //=================================================================
 template <class K, class D>
-string Graph<K,D>::shortestPathRecursive ( K s, K d, int distance )
+string Graph<K,D>::shortestPathRecursive ( K s, K d, double distance, bool weighted )
 {
     if (s == d) {
         VertexInfo<K, D>& s_string = vertices[s];
@@ -334,15 +334,22 @@ string Graph<K,D>::shortestPathRecursive ( K s, K d, int distance )
         VertexInfo<K, D>& d_string = vertices[d];
         tuple<double, double> d_info = d_string.data;
         string label;
+        double weight;
         // assert(vertices.at(d).pre != nullptr);
         for (auto& edge : vertices[*vertices.at(d).pre].adj) {
             if (get<0>(edge) == d) {
                 label = get<2>(edge);
+                weight = get<1>(edge);
             }
         }
 
+        if (weighted) {
+            distance += weight;
+        } else {
+            distance++;
+        }
         string d_str = label + "(" + (to_string(get<0>(d_info))) + ", " + (to_string(get<1>(d_info))) + ")" + "\n";
-        return shortestPathRecursive(s, *vertices.at(d).pre, distance + 1) + d_str;
+        return shortestPathRecursive(s, *vertices.at(d).pre, distance, weighted) + d_str;
     }
 }
 

@@ -56,7 +56,7 @@ public:
    string  topologicalSort ( );
    void    BFS             ( K source );
    string  shortestPath    ( K s, K d, bool weighted = false );
-   string  shortestPathRecursive    ( K s, K d, int distance = 0 );
+   string  shortestPathRecursive    ( K s, K d, double distance, bool weighted );
    void  dijkstra        ( K s );
    int**   asAdjMatrix     ( ) const;
    void    initializeSingleSource   ( K s );
