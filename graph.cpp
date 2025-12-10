@@ -306,14 +306,14 @@ string Graph<K,D>::shortestPath ( K s, K d, bool weighted )
 {
     if (!weighted) {
         BFS(s);
-        
-        if (vertices.find(s) == vertices.end() || vertices.find(d) == vertices.end()) {
-            return "Either one or both of your input keys don't exist as a vertex.";
-        } else {
-            return shortestPathRecursive(s, d);
-        }
     } else {
         dijkstra(s);
+    }
+
+    if (vertices.find(s) == vertices.end() || vertices.find(d) == vertices.end()) {
+        return "Either one or both of your input keys don't exist as a vertex.";
+    } else {
+        return shortestPathRecursive(s, d);
     }
 }
 
